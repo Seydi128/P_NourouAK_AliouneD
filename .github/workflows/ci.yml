@@ -13,19 +13,22 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: 📥 Récupérer le code
+      - name:  Récupérer le code
         uses: actions/checkout@v3
 
-      - name: 🔧 Installer NuGet et MSBuild
+      - name:  Installer Visual Studio Build Tools
         run: |
-          choco install nuget.commandline -y
-          choco install microsoft-build-tools -y
+          choco install visualstudio2022buildtools --no-progress --force
+          choco install visualstudio2022-workload-manageddesktop --no-progress --force
 
-      - name: 📦 Restaurer les dépendances
+      - name:  Ajouter MSBuild au PATH
+        run: echo "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin" >> $GITHUB_PATH
+
+      - name:  Restaurer les dépendances
         run: nuget restore
 
-      - name: 🏗️ Compiler le projet
-        run: msbuild /p:Configuration=Release
+      - name:  Compiler le projet avec MSBuild
+        run: '"C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe" /p:Configuration=Release'
 
-      - name: 🧪 Lancer les tests unitaires
+      - name:  Lancer les tests unitaires
         run: dotnet test --configuration Release --no-build
