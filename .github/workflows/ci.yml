@@ -28,7 +28,7 @@ jobs:
         run: nuget restore
 
       - name:  Compiler le projet avec MSBuild
-        run: $msbuildPath = "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe" & $msbuildPath "/p:Configuration=Release"
+        run: $msbuildPath = '"C:\Program Files\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe" & $msbuildPath "/p:Configuration=Release"'
 
 
       - name:  Lancer les tests unitaires
